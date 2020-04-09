@@ -6,6 +6,10 @@ import * as bluebird from 'bluebird';
 export const databaseProvider = {
   provide: 'AsyncDbConnection',
   useFactory: async () => {
-    return mongoose.connect(`mongodb://localhost:27017/${process.env.MONGO_DB_NAME}`);
+    return mongoose.connect(`mongodb://localhost:27017/${process.env.MONGO_DB_NAME}`,
+      {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+      });
   },
 };

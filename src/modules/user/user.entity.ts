@@ -29,7 +29,10 @@ export class User extends Typegoose {
   _id: string;
 
   @prop()
-  uid?: string;
+  name: string;
+
+  @prop()
+  clientUid?: string;
 
   @prop()
   nickname?: string;
@@ -44,7 +47,7 @@ export class User extends Typegoose {
   password?: string;
 
   @prop({ref: File})
-  profile?: Ref<File>;
+  avatar?: Ref<File>;
 
   @prop({enum: UserRole, default: UserRole.USER})
   role: UserRole;
