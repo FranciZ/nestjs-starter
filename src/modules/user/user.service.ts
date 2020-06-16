@@ -10,6 +10,7 @@ import { InvalidLoginCredentialsException } from './exceptions/invalidLoginCrede
 import { EmailNotVerifiedException } from './exceptions/emailNotVerified.exception';
 import { EmailExistsException } from './exceptions/emailExists.exception';
 import * as fs from 'fs';
+import { getModelForClass } from "@typegoose/typegoose";
 
 @Injectable()
 export class UserService {
@@ -25,7 +26,7 @@ export class UserService {
   }
 
   public async getUser(_id: string, populateAvatar = false): Promise<User> {
-    const UserModel = new User().getModelForClass(User);
+    const UserModel = getModelForClass(User);
     if (!populateAvatar) {
       return await UserModel.findById(_id).select('-password');
     } else {
@@ -34,7 +35,7 @@ export class UserService {
   }
 
   public async userBootstrap(user: User) {
-    const TeamModel = new Team().getModelForClass(Team);
+    const TeamModel = getModelForClass(Team);
     const allTeams = await TeamModel.find({'members.user': user._id});
 
     const teams = allTeams.map((team) => {
@@ -79,12 +80,12 @@ export class UserService {
 
   private async findUserByNickname(nickname): Promise<boolean> {
 
-    const UserModel = new User().getModelForClass(User);
+    const UserModel = getModelForClass(User);
     return !!(await UserModel.count({nickname}));
   }
 
   public async updateFirebaseToken(userId: string, firebaseToken: string): Promise<string> {
-    const UserModel = new User().getModelForClass(User);
+    const UserModel = getModelForClass(User);
     await UserModel.findOneAndUpdate({_id: userId}, {firebaseToken});
     return 'success';
   }
@@ -98,7 +99,7 @@ export class UserService {
 
     console.log('userData: ', userData);
 
-    const UserModel = new User().getModelForClass(User);
+    const UserModel = getModelForClass(User);
     // userData.password = await CryptUtil.generateHash(userData.password);
     const user = new UserModel(userData);
     user.nickname = await this.getRandomNickname();
@@ -113,7 +114,7 @@ export class UserService {
 
   public async login(data: VUserLogin): Promise<DAuthenticatedUser> {
 
-    const UserModel = new User().getModelForClass(User);
+    const UserModel = getModelForClass(User);
     const user = await UserModel.findOne({email: data.email});
 
     if (!user || !user.password) throw new InvalidLoginCredentialsException();
@@ -128,7 +129,7 @@ export class UserService {
   }
 
   public async updateUser(userId: string, data: VUserUpdate) {
-    const UserModel = new User().getModelForClass(User);
+    const UserModel = getModelForClass(User);
     const oldUser = await UserModel.findById(userId);
     if (oldUser.email !== data.email) {
       const emailExists = !!(await UserModel.findOne({email: data.email}));
@@ -138,13 +139,13 @@ export class UserService {
   }
 
   public async getByEmail(email: string) {
-    const UserModel = new User().getModelForClass(User);
+    const UserModel = getModelForClass(User);
     email = email.trim();
     return await UserModel.findOne({email: email});
   }
 
   public async getByUid(uid: string) {
-    const UserModel = new User().getModelForClass(User);
+    const UserModel = getModelForClass(User);
     return await UserModel.findOne({uid});
   }
 

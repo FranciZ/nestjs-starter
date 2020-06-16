@@ -1,4 +1,4 @@
-import { prop, Typegoose, ModelType, InstanceType, arrayProp, Ref } from '@hasezoey/typegoose';
+import { prop, Ref, getModelForClass } from '@typegoose/typegoose';
 import { File } from '../file/file.entity';
 import * as mongoose from 'mongoose';
 import {
@@ -24,7 +24,7 @@ export enum UserRole {
   USER = 'USER'
 }
 
-export class User extends Typegoose {
+export class User {
 
   _id: string;
 
@@ -62,7 +62,7 @@ export enum TeamUserRole {
   ADMIN = 'ADMIN'
 }
 
-export class TeamMember extends Typegoose {
+export class TeamMember {
 
   _id: string;
 
@@ -77,7 +77,7 @@ export class TeamMember extends Typegoose {
 
 }
 
-export class Team extends Typegoose {
+export class Team {
 
   _id: string;
 
@@ -101,9 +101,9 @@ export class Team extends Typegoose {
   @prop({default: false})
   deleted?: boolean;
 
-  @arrayProp({items: TeamMember})
+  @prop({items: TeamMember})
   members: TeamMember[];
 
 }
 
-new User().getModelForClass(User);
+getModelForClass(User);

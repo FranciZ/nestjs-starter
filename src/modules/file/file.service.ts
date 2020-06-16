@@ -5,6 +5,7 @@ import * as sharp from 'sharp';
 import * as fs from 'fs';
 import * as pkgcloud from 'pkgcloud';
 import { File } from '../file/file.entity';
+import { getModelForClass } from "@typegoose/typegoose";
 
 @Injectable()
 export class FileService {
@@ -55,7 +56,7 @@ export class FileService {
           const deleteResultThumb = await this.deleteFileFromS3(oldFile.thumbRemote);
         }
 
-        const FileModel = new File().getModelForClass(File);
+        const FileModel = getModelForClass(File);
         await FileModel.remove({ _id: oldFile._id });
 
       }
@@ -71,7 +72,7 @@ export class FileService {
     if (file.thumbRemote) {
       await this.deleteFileFromS3(file.thumbRemote);
     }
-    const FileModel = new File().getModelForClass(File);
+    const FileModel = getModelForClass(File);
     await FileModel.remove({ _id: file._id });
     return true;
   }

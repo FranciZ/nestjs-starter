@@ -1,4 +1,4 @@
-import { Component, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import * as jwt from 'jsonwebtoken';
 import { InvalidTokenException } from './invalidToken.exception';
 import { IJWTObject } from './auth.interface';

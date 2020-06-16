@@ -1,4 +1,4 @@
-import { prop, Typegoose, ModelType, InstanceType, arrayProp } from '@hasezoey/typegoose';
+import { getModelForClass, prop } from '@typegoose/typegoose';
 import * as mongoose from 'mongoose';
 import {
   Allow,
@@ -18,7 +18,7 @@ export enum FileType {
   GIF = 'GIF'
 }
 
-export class File extends Typegoose {
+export class File {
 
   _id: string;
   @prop()
@@ -33,7 +33,7 @@ export class File extends Typegoose {
   mimeType?: string;
   @prop()
   size?: number;
-  @prop({ enum: FileType })
+  @prop({enum: FileType})
   type?: FileType;
   @prop()
   width?: number;
@@ -42,4 +42,4 @@ export class File extends Typegoose {
 
 }
 
-new File().getModelForClass(File);
+getModelForClass(File);

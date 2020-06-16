@@ -16,6 +16,7 @@ import * as path from 'path';
 import * as sharp from 'sharp';
 import * as fs from 'fs';
 import { FileInterceptor } from "@nestjs/platform-express";
+import { getModelForClass } from "@typegoose/typegoose";
 
 const storage = multer.diskStorage({
   destination: 'upload',
@@ -48,7 +49,7 @@ export class AdminFileController {
     const thumbPath = `upload/${thumbFileName}`;
     const imagePath = `upload/${imageFileName}`;
 
-    const ImageModel = new File().getModelForClass(File);
+    const ImageModel = getModelForClass(File);
     const image = new ImageModel({
       path: imagePath,
       thumbPath: thumbPath,

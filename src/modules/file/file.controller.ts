@@ -12,6 +12,7 @@ import * as gm from 'gm';
 import * as imageSize from 'image-size';
 import { promisify } from 'util';
 import { FileInterceptor } from "@nestjs/platform-express";
+import { getModelForClass } from "@typegoose/typegoose";
 
 const sizeOf = promisify(imageSize);
 
@@ -38,7 +39,7 @@ export class FileController {
   @UseInterceptors(FileInterceptor('file', multerOptions))
   async uploadFile(@Body() body, @UploadedFile() file, @Query() queryParams): Promise<any> {
 
-    const FileModel = new File().getModelForClass(File);
+    const FileModel = getModelForClass(File);
     const fileDocument = new FileModel(body);
 
     if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
