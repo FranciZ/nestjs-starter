@@ -1,4 +1,4 @@
-import { Component, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import * as uuidv4 from 'uuid/v4';
 import * as path from 'path';
 import * as sharp from 'sharp';

@@ -4,7 +4,6 @@ export class DAuthenticatedUser {
 
   _id: string;
   nickname: string;
-  uid: string;
   email: string;
   accessToken: string;
 
@@ -12,7 +11,6 @@ export class DAuthenticatedUser {
   constructor(userDoc: User, token: string) {
     this._id = userDoc._id;
     this.nickname = userDoc.nickname;
-    this.uid = userDoc.uid;
     this.accessToken = token;
   }
 }
