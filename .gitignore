@@ -6,7 +6,6 @@
 
 # env config
 /.env
-/.sample.env
 
 
 # IDE
